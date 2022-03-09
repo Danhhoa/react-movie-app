@@ -5,6 +5,7 @@ import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 
 export const API_KEY = "b88df46f";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,6 +26,9 @@ const AppName = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+const MovieLogo = styled.span`
+  color: rgb(153, 238, 180, 1);
 `;
 const MovieImage = styled.img`
   width: 48px;
@@ -55,13 +59,30 @@ const SearchInput = styled.input`
   margin-left: 15px;
 `;
 const MovieListContainer = styled.div`
-  /* background-color: #06121e; */
+  --spacing: 1rem;
+  --columns: 4;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  padding: 30px;
-  gap: 24px;
-  justify-content: space-evenly;
+  /* margin-left: calc(-1 * var(--spacing)); */
+  padding: 0.5rem calc((100vw - 1200px) / 2);
+  color: #7a7a7a;
+
+  & h3 {
+    margin: 10px auto;
+    font-weight: 400;
+  }
+
+  @media (min-width: 1440px) {
+    --columns: 5;
+  }
+
+  @media (max-width: 768px) {
+    --columns: 3;
+  }
+
+  @media (max-width: 480px) {
+    --columns: 2;
+  }
 `;
 
 function App() {
@@ -87,12 +108,12 @@ function App() {
       <Header>
         <AppName>
           <MovieImage src="/movie-icon.svg" />
-          React Movie App
+          <MovieLogo>React Movie App</MovieLogo>
         </AppName>
         <SearchBox>
           <SearchIcon src="/search-icon.svg" />
           <SearchInput
-            placeholder="Search Movie"
+            placeholder="Search Movie..."
             value={searchQuery}
             onChange={onTextChange}
           />
@@ -105,16 +126,17 @@ function App() {
         />
       )}
       <MovieListContainer>
-        {movieList?.length
-          ? movieList.map((movie, index) => (
-              <MovieComponent
-                key={index}
-                movie={movie}
-                onMovieSelect={onMovieSelect}
-              />
-            ))
-          : "No Movie Search"}
-        ;
+        {movieList?.length ? (
+          movieList.map((movie, index) => (
+            <MovieComponent
+              key={index}
+              movie={movie}
+              onMovieSelect={onMovieSelect}
+            />
+          ))
+        ) : (
+          <h3>No Movie Search</h3>
+        )}
       </MovieListContainer>
     </Container>
   );

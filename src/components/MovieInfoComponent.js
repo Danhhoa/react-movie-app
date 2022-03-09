@@ -8,10 +8,14 @@ const Container = styled.div`
   padding: 20px 30px;
   justify-content: center;
   border-bottom: 1px solid lightgray;
+  & h3 {
+    color: #fff;
+    font-weight: 400;
+  }
 `;
 
 const CoverImage = styled.img`
-  height: 352px;
+  height: 100%;
   object-fit: cover;
 `;
 
@@ -25,7 +29,7 @@ const InfoColumn = styled.div`
 const MovieName = styled.span`
   font-style: 22px;
   font-weight: 600;
-  color: black;
+  color: #dbdbdb;
   margin: 15px 0;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -36,27 +40,57 @@ const MovieName = styled.span`
 `;
 const MovieInfo = styled.span`
   font-style: 16px;
-  font-weight: 500;
-  color: black;
+  font-weight: 300;
+  color: #dbdbdb;
   overflow: hidden;
   margin: 4px 0;
   text-transform: capitalize;
   text-overflow: ellipsis;
   & span {
-    opacity: 0.5;
+    opacity: 0.6;
+    color: #dbdbdb;
   }
 `;
 
 const Close = styled.span`
-  font-style: 16px;
-  font-weight: 600;
-  color: black;
-  background: lightgray;
-  height: fit-content;
-  padding: 8px;
+  overflow: hidden;
+  position: relative;
+  border: none;
+  padding: 0;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
+  background: transparent;
+  color: #1da1f2;
+  font: inherit;
+  text-indent: 100%;
   cursor: pointer;
-  opacity: 0.8;
+
+  &:focus {
+    outline: solid 0 transparent;
+    box-shadow: 0 0 0 2px #8ed0f9;
+  }
+
+  &:hover {
+    background: rgba(29, 161, 142, 0.1);
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 15%;
+    left: calc(50% - 0.0625em);
+    width: 0.125em;
+    height: 70%;
+    border-radius: 0.125em;
+    transform: rotate(45deg);
+    background: currentcolor;
+    content: "";
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
 `;
 const MovieInfoComponent = (props) => {
   const [movieInfo, setMovieInfo] = useState();
@@ -104,7 +138,7 @@ const MovieInfoComponent = (props) => {
           <Close onClick={() => props.onMovieSelect()}>X</Close>
         </>
       ) : (
-        "Loading..."
+        <h3>Loading...</h3>
       )}
     </Container>
   );

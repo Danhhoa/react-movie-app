@@ -1,29 +1,33 @@
 import styled from "styled-components";
 
 const MovieContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  width: 280px;
-  box-shadow: 0 3px 10px #aaa;
+  width: calc(calc(100% / var(--columns)) - var(--spacing) - var(--spacing));
+  height: fit-content;
+  margin-left: var(--spacing);
+  margin-bottom: 0.5rem;
+  margin-top: 10px;
+  margin-right: var(--spacing);
   cursor: pointer;
 `;
 
 const CoverImage = styled.img`
-  height: 362px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
   object-fit: cover;
 `;
 const MovieName = styled.span`
   font-style: 18px;
-  font-weight: 600;
-  color: black;
-  margin: 15px 0;
+  font-weight: 400;
+  color: #dbdbdb;
+  margin: 5px 0;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
+  line-height: 1.5;
 `;
 const InfoColumn = styled.div`
   display: flex;
@@ -32,9 +36,10 @@ const InfoColumn = styled.div`
 `;
 const MovieInfo = styled.span`
   font-style: 16px;
-  font-weight: 500;
-  color: black;
+  font-weight: 400;
+  color: #7a7a7a;
   text-transform: capitalize;
+  line-height: 1.5;
 `;
 const MovieComponent = (props) => {
   const { Title, Year, imdbID, Type, Poster } = props.movie;
