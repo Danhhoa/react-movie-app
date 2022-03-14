@@ -12,7 +12,7 @@ const MovieContainer = styled.div`
 
 const CoverImage = styled.img`
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4; 
   flex-shrink: 0;
   object-fit: cover;
 `;

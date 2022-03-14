@@ -27,8 +27,9 @@ const InfoColumn = styled.div`
 `;
 
 const MovieName = styled.span`
-  font-style: 22px;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: "Merriweather",serif;
   color: #dbdbdb;
   margin: 15px 0;
   display: -webkit-box;
@@ -37,18 +38,20 @@ const MovieName = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
+  margin-bottom: 3rem;
 `;
 const MovieInfo = styled.span`
   font-style: 16px;
-  font-weight: 300;
+  font-weight: 500;
   color: #dbdbdb;
   overflow: hidden;
   margin: 4px 0;
   text-transform: capitalize;
   text-overflow: ellipsis;
   & span {
-    opacity: 0.6;
-    color: #dbdbdb;
+    /* opacity: 0.6; */
+    color: #7a7a7a;
+    font-weight: 100;
   }
 `;
 
