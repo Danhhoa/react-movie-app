@@ -4,7 +4,7 @@ import styled from "styled-components";
 import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 
-export const API_KEY = "b88df46f";
+export const API_KEY = "ac7b447e31a8d78b345a06230e0437ab";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
+  background-color: #121212;
   color: white;
   padding: 10px;
   font-size: 25px;
@@ -93,9 +93,9 @@ function App() {
 
   const fetchData = async (searchString) => {
     const response = await axios.get(
-      `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchString}`
     );
-    updateMovieList(response.data.Search);
+    updateMovieList(response.data.results);
   };
   const onTextChange = (event) => {
     clearTimeout(timeoutId);

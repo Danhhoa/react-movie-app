@@ -12,7 +12,8 @@ const MovieContainer = styled.div`
 
 const CoverImage = styled.img`
   width: 100%;
-  aspect-ratio: 3 / 4; 
+  aspect-ratio: 2 / 3;
+  /* height: 100%; */
   flex-shrink: 0;
   object-fit: cover;
 `;
@@ -42,14 +43,13 @@ const MovieInfo = styled.span`
   line-height: 1.5;
 `;
 const MovieComponent = (props) => {
-  const { Title, Year, imdbID, Type, Poster } = props.movie;
+  const { title, release_date, id, vote_average, poster_path } = props.movie;
   return (
-    <MovieContainer onClick={() => props.onMovieSelect(imdbID)}>
-      <CoverImage src={Poster} />
-      <MovieName>{Title}</MovieName>
+    <MovieContainer onClick={() => props.onMovieSelect(id)}>
+      <CoverImage src={"https://image.tmdb.org/t/p/original/" + poster_path} />
+      <MovieName>{title}</MovieName>
       <InfoColumn>
-        <MovieInfo>Year: {Year}</MovieInfo>
-        <MovieInfo>Type: {Type}</MovieInfo>
+        <MovieInfo>{release_date}</MovieInfo>
       </InfoColumn>
     </MovieContainer>
   );
