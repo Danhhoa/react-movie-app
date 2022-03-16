@@ -10,18 +10,17 @@ const Container = styled.div`
   flex-direction: row;
   padding: 20px 30px;
   justify-content: center;
-  /* align-items: center; */
-  border-bottom: 1px solid lightgray;
-  & h3 {
-    color: #fff;
-    font-weight: 400;
-  }
   padding: 0.5rem calc((100vw - 1200px) / 2);
   background-image: ${(props) => `url(${props.picture})`};
   background-position: 50% 0;
   background-size: cover;
-  background-color: rgba(2, 13, 24, 0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   position: relative;
+  & h3 {
+    color: #fff;
+    font-weight: 400;
+  }
+
   &:before {
     position: absolute;
     content: "";
@@ -41,19 +40,6 @@ const CoverImage = styled.img`
   z-index: 1;
 `;
 
-const CastImage = styled.img`
-  margin: 0 30px;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 100rem;
-  object-fit: cover;
-  border: 2px solid transparent;
-  cursor: pointer;
-  &:hover {
-    border: 2px solid yellow;
-  }
-`;
-
 const InfoColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,7 +55,7 @@ const MovieName = styled.span`
   color: #dbdbdb;
   margin: 15px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -88,7 +74,6 @@ const MovieInfo = styled.span`
   text-overflow: ellipsis;
   z-index: 1;
   & span {
-    /* opacity: 0.6; */
     color: #b5b5b5;
     font-weight: 300;
   }
@@ -149,6 +134,19 @@ const CastInfo = styled.div`
   margin-top: 20px;
   z-index: 1;
 `;
+const CastImage = styled.img`
+  margin: 0 30px;
+  margin-top: -10px;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid #c19309;
+  }
+`;
 const CastRealName = styled.span`
   color: #dbdbdb;
   margin-top: 20px;
@@ -175,6 +173,7 @@ const MovieInfoComponent = (props) => {
   const [movieInfo, setMovieInfo] = useState();
   const [movieCast, setMovieCast] = useState();
   const { selectedMovie } = props;
+
   useEffect(() => {
     axios
       .get(
@@ -182,6 +181,7 @@ const MovieInfoComponent = (props) => {
       )
       .then((response) => setMovieInfo(response.data));
   }, [selectedMovie]);
+
   useEffect(() => {
     axios
       .get(
@@ -189,6 +189,7 @@ const MovieInfoComponent = (props) => {
       )
       .then((response) => setMovieCast(response.data));
   }, [selectedMovie]);
+
   return (
     <Container
       picture={
@@ -204,29 +205,39 @@ const MovieInfoComponent = (props) => {
           />
           <InfoColumn>
             <MovieName>{movieInfo?.original_title}</MovieName>
-            {movieCast?.crew
-              .filter((item) => item.job === "Director")
-              .map((item, index) => (
-                <MovieInfo key={index}>
-                  Director : <span>{item.name}</span>
-                </MovieInfo>
-              ))}
-            ;
+
+            <MovieInfo>
+              Director :
+              {movieCast?.crew
+                .filter((item) => item.job === "Director")
+                .map((item, index) => (
+                  <span key={index}> {item.name} </span>
+                ))}
+            </MovieInfo>
+
             <MovieInfo>
               Writers :
               {movieCast?.crew
                 .filter((item) => item.job === "Writer")
-                .map((item) => (
-                  <span> {item.name}, </span>
-                ))}
+                .map((item, index, arr) =>
+                  arr.length - 1 === index ? (
+                    <span key={index}> {item.name} </span>
+                  ) : (
+                    <span key={index}> {item.name}, </span>
+                  )
+                )}
             </MovieInfo>
+
             <MovieInfo>
               Runtime : <span>{movieInfo?.runtime} minutes</span>
             </MovieInfo>
+
             <MovieInfo>
               Release Date : <span>{movieInfo?.release_date}</span>
             </MovieInfo>
+
             <Overview>{movieInfo?.overview}</Overview>
+
             <MovieInfo>CAST</MovieInfo>
             <CastList>
               {movieCast?.cast.slice(0, 5).map((item, index) => (
