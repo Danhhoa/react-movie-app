@@ -5,20 +5,32 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API_KEY } from "../App";
-const Container = styled.div.attrs((props) => ({
-  picture: "",
-}))`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   padding: 20px 30px;
   justify-content: center;
+  /* align-items: center; */
   border-bottom: 1px solid lightgray;
   & h3 {
     color: #fff;
     font-weight: 400;
   }
   padding: 0.5rem calc((100vw - 1200px) / 2);
-  /* background-image: url("https://image.tmdb.org/t/p/original/" + ); */
+  background-image: ${(props) => `url(${props.picture})`};
+  background-position: 50% 0;
+  background-size: cover;
+  background-color: rgba(2, 13, 24, 0.75);
+  position: relative;
+  &:before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(2, 2, 2, 0.75);
+    opacity: 0.8;
+  }
 `;
 
 const CoverImage = styled.img`
@@ -26,6 +38,7 @@ const CoverImage = styled.img`
   height: 30%;
   object-fit: cover;
   border-radius: 20px;
+  z-index: 1;
 `;
 
 const CastImage = styled.img`
@@ -49,6 +62,7 @@ const InfoColumn = styled.div`
 `;
 
 const MovieName = styled.span`
+  max-width: 700px;
   font-size: 3rem;
   font-weight: 800;
   font-family: "Merriweather", serif;
@@ -61,6 +75,7 @@ const MovieName = styled.span`
   text-overflow: ellipsis;
   word-break: break-word;
   margin-bottom: 3rem;
+  z-index: 1;
 `;
 const MovieInfo = styled.span`
   font-style: 16px;
@@ -71,9 +86,10 @@ const MovieInfo = styled.span`
   margin: 4px 0;
   /* text-transform: capitalize; */
   text-overflow: ellipsis;
+  z-index: 1;
   & span {
     /* opacity: 0.6; */
-    color: #7a7a7a;
+    color: #b5b5b5;
     font-weight: 300;
   }
 `;
@@ -91,6 +107,7 @@ const Close = styled.span`
   font: inherit;
   text-indent: 100%;
   cursor: pointer;
+  z-index: 1;
 
   &:focus {
     outline: solid 0 transparent;
@@ -105,7 +122,7 @@ const Close = styled.span`
   &:after {
     position: absolute;
     top: 15%;
-    left: calc(50% - 0.0625em);
+    left: calc(50% - 0.047em);
     width: 0.125em;
     height: 70%;
     border-radius: 0.125em;
@@ -122,6 +139,7 @@ const Close = styled.span`
 const CastList = styled.div`
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 `;
 const CastInfo = styled.div`
   width: 20%;
@@ -129,24 +147,29 @@ const CastInfo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  z-index: 1;
 `;
 const CastRealName = styled.span`
   color: #dbdbdb;
   margin-top: 20px;
   word-break: break-word;
   text-align: center;
+  z-index: 1;
 `;
 const CastName = styled.span`
   color: #7a7a7a;
   margin-top: 5px;
   word-break: break-word;
   text-align: center;
+  z-index: 1;
+  font-weight: 400;
 `;
 const Overview = styled.span`
   color: #afb5a7;
   line-height: 1.5rem;
   margin: 1rem 0;
   font-size: 1em;
+  z-index: 1;
 `;
 const MovieInfoComponent = (props) => {
   const [movieInfo, setMovieInfo] = useState();
@@ -164,10 +187,14 @@ const MovieInfoComponent = (props) => {
       .get(
         `http://api.themoviedb.org/3/movie/${selectedMovie}/casts?api_key=${API_KEY}`
       )
-      .then((response2) => setMovieCast(response2.data.cast));
+      .then((response) => setMovieCast(response.data));
   }, [selectedMovie]);
   return (
-    <Container picture={movieInfo?.backdrop_path}>
+    <Container
+      picture={
+        "https://image.tmdb.org/t/p/original/" + movieInfo?.backdrop_path
+      }
+    >
       {movieInfo ? (
         <>
           <CoverImage
@@ -177,65 +204,43 @@ const MovieInfoComponent = (props) => {
           />
           <InfoColumn>
             <MovieName>{movieInfo?.original_title}</MovieName>
+            {movieCast?.crew
+              .filter((item) => item.job === "Director")
+              .map((item, index) => (
+                <MovieInfo key={index}>
+                  Director : <span>{item.name}</span>
+                </MovieInfo>
+              ))}
+            ;
+            <MovieInfo>
+              Writers :
+              {movieCast?.crew
+                .filter((item) => item.job === "Writer")
+                .map((item) => (
+                  <span> {item.name}, </span>
+                ))}
+            </MovieInfo>
             <MovieInfo>
               Runtime : <span>{movieInfo?.runtime} minutes</span>
             </MovieInfo>
             <MovieInfo>
-              Release_Date : <span>{movieInfo?.release_date}</span>
+              Release Date : <span>{movieInfo?.release_date}</span>
             </MovieInfo>
             <Overview>{movieInfo?.overview}</Overview>
             <MovieInfo>CAST</MovieInfo>
             <CastList>
-              <CastInfo>
-                <CastImage
-                  src={
-                    "https://image.tmdb.org/t/p/original/" +
-                    movieCast?.[0].profile_path
-                  }
-                />
-                <CastRealName>{movieCast?.[0].name}</CastRealName>
-                <CastName>{movieCast?.[0].character}</CastName>
-              </CastInfo>
-              <CastInfo>
-                <CastImage
-                  src={
-                    "https://image.tmdb.org/t/p/original/" +
-                    movieCast?.[1].profile_path
-                  }
-                />
-                <CastRealName>{movieCast?.[1].name}</CastRealName>
-                <CastName>{movieCast?.[1].character}</CastName>
-              </CastInfo>
-              <CastInfo>
-                <CastImage
-                  src={
-                    "https://image.tmdb.org/t/p/original/" +
-                    movieCast?.[2].profile_path
-                  }
-                />
-                <CastRealName>{movieCast?.[2].name}</CastRealName>
-                <CastName>{movieCast?.[2].character}</CastName>
-              </CastInfo>
-              <CastInfo>
-                <CastImage
-                  src={
-                    "https://image.tmdb.org/t/p/original/" +
-                    movieCast?.[3].profile_path
-                  }
-                />
-                <CastRealName>{movieCast?.[3].name}</CastRealName>
-                <CastName>{movieCast?.[3].character}</CastName>
-              </CastInfo>
-              <CastInfo>
-                <CastImage
-                  src={
-                    "https://image.tmdb.org/t/p/original/" +
-                    movieCast?.[4].profile_path
-                  }
-                />
-                <CastRealName>{movieCast?.[4].name}</CastRealName>
-                <CastName>{movieCast?.[4].character}</CastName>
-              </CastInfo>
+              {movieCast?.cast.slice(0, 5).map((item, index) => (
+                <CastInfo key={index}>
+                  <CastImage
+                    src={
+                      "https://image.tmdb.org/t/p/original/" + item.profile_path
+                    }
+                  />
+                  <CastRealName>{item.name}</CastRealName>
+                  <CastName>{item.character}</CastName>
+                </CastInfo>
+              ))}
+              ;
             </CastList>
           </InfoColumn>
           <Close onClick={() => props.onMovieSelect()}>X</Close>
