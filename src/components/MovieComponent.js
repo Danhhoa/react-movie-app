@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link, Outlet, useParams } from "react-router-dom";
 
 const MovieContainer = styled.div`
   width: calc(calc(100% / var(--columns)) - var(--spacing) - var(--spacing));
@@ -44,13 +45,19 @@ const MovieInfo = styled.span`
 `;
 const MovieComponent = (props) => {
   const { title, release_date, id, vote_average, poster_path } = props.movie;
+
   return (
-    <MovieContainer onClick={() => props.onMovieSelect(id)}>
-      <CoverImage src={"https://image.tmdb.org/t/p/original/" + poster_path} />
-      <MovieName>{title}</MovieName>
-      <InfoColumn>
-        <MovieInfo>{release_date}</MovieInfo>
-      </InfoColumn>
+    <MovieContainer onClick={() => props.onMovieSelect(id)} >
+      <Link to={"/movie/" + id}>
+        <CoverImage src={"https://image.tmdb.org/t/p/original/" + poster_path} />
+        <MovieName>{title}</MovieName>
+        <InfoColumn>
+          <MovieInfo>{release_date}</MovieInfo>
+        </InfoColumn>
+        <InfoColumn>
+          <MovieInfo>{id}</MovieInfo>
+        </InfoColumn>
+      </Link>
     </MovieContainer>
   );
 };

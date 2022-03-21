@@ -1,10 +1,12 @@
+import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
+import { Routes, Route, Link, Redirect, Outlet } from "react-router-dom";
 import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 
-export const API_KEY = "ac7b447e31a8d78b345a06230e0437ab";
+export const API_KEY = "1ffbb6c9f0d5b48932c257b5d05f2a8e";
 
 const Container = styled.div`
   display: flex;
@@ -103,8 +105,9 @@ function App() {
     const timeout = setTimeout(() => fetchData(event.target.value), 500);
     updateTimeoutId(timeout);
   };
+
   return (
-    <Container>
+    <Container >
       <Header>
         <AppName>
           <MovieImage src="/movie-icon.svg" />
@@ -119,27 +122,30 @@ function App() {
           />
         </SearchBox>
       </Header>
-      {selectedMovie && (
+      {/* {selectedMovie && (
         <MovieInfoComponent
           selectedMovie={selectedMovie}
           onMovieSelect={onMovieSelect}
         />
-      )}
+      )} */}
       <MovieListContainer>
-        {movieList?.length ? (
-          movieList.map((movie, index) => (
-            <MovieComponent
-              key={index}
-              movie={movie}
-              onMovieSelect={onMovieSelect}
-            />
-          ))
-        ) : (
-          <h3>No Movie Search</h3>
-        )}
-      </MovieListContainer>
+              {movieList?.length ? (
+                movieList.map((movie, index) => (
+                  <MovieComponent
+                    key={index}
+                    movie={movie}
+                    onMovieSelect={onMovieSelect}
+                  />
+                ))
+              ) : (
+                <h3>No Movie Search</h3>
+              )}
+            </MovieListContainer>
+      <Outlet/>
     </Container>
   );
 }
+
+
 
 export default App;
