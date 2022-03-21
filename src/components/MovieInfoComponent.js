@@ -159,6 +159,7 @@ const MovieInfoComponent = (props) => {
       )
       .then((response) => setMovieInfo(response.data));
   }, [selectedMovie]);
+
   useEffect(() => {
     axios
       .get(
@@ -184,6 +185,29 @@ const MovieInfoComponent = (props) => {
           />
           <InfoColumn>
             <MovieName>{movieInfo?.original_title}</MovieName>
+
+            <MovieInfo>
+              Director :
+              {movieCast?.crew
+                .filter((item) => item.job === "Director")
+                .map((item, index) => (
+                  <span key={index}> {item.name} </span>
+                ))}
+            </MovieInfo>
+
+            <MovieInfo>
+              Writers :
+              {movieCast?.crew
+                .filter((item) => item.job === "Writer")
+                .map((item, index, arr) =>
+                  arr.length - 1 === index ? (
+                    <span key={index}> {item.name} </span>
+                  ) : (
+                    <span key={index}> {item.name}, </span>
+                  )
+                )}
+            </MovieInfo>
+
             <MovieInfo>
               {console.log(movieInfo.videos.results[0].key)}
               Director :
@@ -209,10 +233,13 @@ const MovieInfoComponent = (props) => {
             <MovieInfo>
               Runtime : <span>{movieInfo?.runtime} minutes</span>
             </MovieInfo>
+
             <MovieInfo>
-              Release_Date : <span>{movieInfo?.release_date}</span>
+              Release Date : <span>{movieInfo?.release_date}</span>
             </MovieInfo>
+
             <Overview>{movieInfo?.overview}</Overview>
+
             <MovieInfo>CAST</MovieInfo>
             <CastList>
               {console.log(movieCast)}
