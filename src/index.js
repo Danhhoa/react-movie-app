@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
-import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
+import CastDetails from "./components/CastDetails";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -17,15 +17,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 ReactDOM.render(
   <React.StrictMode>
-    <Router >
+    <Router>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element= { <App />} />
-        <Route path="/movie/:movieId" element= 
-              {<MovieInfoComponent
-                // selectedMovie={selectedMovie}
-                // onMovieSelect={onMovieSelect}
-              />} />
+        <Route path="/" element={<App />} />
+        <Route path="/movie/:movieId" element={<MovieInfoComponent />} />
+        <Route path="/cast/:castId" element={<CastDetails />} />
       </Routes>
     </Router>
   </React.StrictMode>,
