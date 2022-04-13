@@ -2,13 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { API_KEY } from "../App";
 import axios from "axios";
-import "react-slideshow-image/dist/styles.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { Link } from "react-router-dom";
 
 //SwiperStyle
 const StyleSwiperMulti = {
@@ -47,14 +47,18 @@ const LeftSide = () => {
   return (
     <div className="leftSide">
       <AppInfo />
+      <Link to={`/search`} style={{textDecoration : "none"}}>
       <div className="leftSide__searchSelect">
+        
         <img
           className="leftSide__searchSelect-icon"
           src="/search-icon.svg"
           alt=""
         />
         <span className="leftSide__searchSelect-title">Tìm kiếm</span>
+      
       </div>
+      </Link>
     </div>
   );
 };
@@ -76,11 +80,13 @@ const MiddleSide = (props) => {
         <Swiper {...StyleSwiperSingle}>
           {props.slideShowTop?.slice(0, 5).map((item, index) => (
             <SwiperSlide key={index}>
+              <Link to={`/movie/${item.id}`}>
               <img
                 src={`https://image.tmdb.org/t/p/original/${item?.backdrop_path}`}
                 className="slideShowTop__picture"
                 alt=""
               />
+              </Link>
               <span className="slideShowTop__title">
                 {item.original_name || item.title}
               </span>
@@ -113,11 +119,13 @@ const SlideShowBottom = (props) => {
 const SlideShowBottomItem = (props) => {
   return (
     <>
+    <Link to={`/movie/${props.item?.id}`}>
       <img
         className="slideShowBottom__picture"
         src={`https://image.tmdb.org/t/p/original/${props.item?.poster_path}`}
         alt=""
       />
+      </Link>
       <span className="slideShowBottom__title">
         {props.item.original_name || props.item.title}
       </span>
@@ -132,6 +140,7 @@ const RightSide = (props) => {
       <h1>Top Searches</h1>
       <div className="topSearches">
         {props.api?.map((item, index) => (
+          <Link to={`/movie/${item?.id}`} style={{textDecoration : 'none'}} >
           <div className="topSearches__item" key={index}>
             <img
               src={`https://image.tmdb.org/t/p/original/${item?.poster_path}`}
@@ -142,6 +151,7 @@ const RightSide = (props) => {
               {item.original_name || item.title}
             </span>
           </div>
+          </Link>
         ))}
       </div>
     </div>

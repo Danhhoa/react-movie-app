@@ -6,6 +6,7 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 import CastDetails from "./components/CastDetails";
+import MovieIndexComponent from "./components/MovieIndexComponent";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -20,7 +21,8 @@ ReactDOM.render(
     <Router>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<MovieIndexComponent />} />
+        <Route path="/search" element={<App />} ></Route>
         <Route path="/movie/:movieId" element={<MovieInfoComponent />} />
         <Route path="/cast/:castId" element={<CastDetails />} />
       </Routes>
