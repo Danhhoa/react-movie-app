@@ -47,17 +47,15 @@ const LeftSide = () => {
   return (
     <div className="leftSide">
       <AppInfo />
-      <Link to={`/search`} style={{textDecoration : "none"}}>
-      <div className="leftSide__searchSelect">
-        
-        <img
-          className="leftSide__searchSelect-icon"
-          src="/search-icon.svg"
-          alt=""
-        />
-        <span className="leftSide__searchSelect-title">Tìm kiếm</span>
-      
-      </div>
+      <Link to={`/search`} style={{ textDecoration: "none" }}>
+        <div className="leftSide__searchSelect">
+          <img
+            className="leftSide__searchSelect-icon"
+            src="/search-icon.svg"
+            alt=""
+          />
+          <span className="leftSide__searchSelect-title">Tìm kiếm</span>
+        </div>
       </Link>
     </div>
   );
@@ -81,15 +79,15 @@ const MiddleSide = (props) => {
           {props.slideShowTop?.slice(0, 5).map((item, index) => (
             <SwiperSlide key={index}>
               <Link to={`/movie/${item.id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/original/${item?.backdrop_path}`}
-                className="slideShowTop__picture"
-                alt=""
-              />
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${item?.backdrop_path}`}
+                  className="slideShowTop__picture"
+                  alt=""
+                />
+                <span className="slideShowTop__title">
+                  {item.original_name || item.title}
+                </span>
               </Link>
-              <span className="slideShowTop__title">
-                {item.original_name || item.title}
-              </span>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -108,8 +106,10 @@ const SlideShowBottom = (props) => {
       <Swiper {...StyleSwiperMulti}>
         {props.api?.map((item, index) => (
           <SwiperSlide key={index}>
-            <SlideShowBottomItem item={item} />
-          </SwiperSlide>
+            <Link to={`/movie/${item.id}`} style={{ textDecoration: "none" }} >
+              <SlideShowBottomItem item={item} />
+            </Link>
+            </SwiperSlide>
         ))}
       </Swiper>
     </div>
@@ -119,13 +119,12 @@ const SlideShowBottom = (props) => {
 const SlideShowBottomItem = (props) => {
   return (
     <>
-    <Link to={`/movie/${props.item?.id}`}>
       <img
         className="slideShowBottom__picture"
         src={`https://image.tmdb.org/t/p/original/${props.item?.poster_path}`}
         alt=""
       />
-      </Link>
+
       <span className="slideShowBottom__title">
         {props.item.original_name || props.item.title}
       </span>
@@ -140,17 +139,21 @@ const RightSide = (props) => {
       <h1>Top Searches</h1>
       <div className="topSearches">
         {props.api?.map((item, index) => (
-          <Link to={`/movie/${item?.id}`} style={{textDecoration : 'none'}} >
-          <div className="topSearches__item" key={index}>
-            <img
-              src={`https://image.tmdb.org/t/p/original/${item?.poster_path}`}
-              className="topSearches__item-picture"
-              alt=""
-            />
-            <span className="topSearches__item-title">
-              {item.original_name || item.title}
-            </span>
-          </div>
+          <Link
+            to={`/movie/${item?.id}`}
+            style={{ textDecoration: "none" }}
+            key={index}
+          >
+            <div className="topSearches__item">
+              <img
+                src={`https://image.tmdb.org/t/p/original/${item?.poster_path}`}
+                className="topSearches__item-picture"
+                alt=""
+              />
+              <span className="topSearches__item-title">
+                {item.original_name || item.title}
+              </span>
+            </div>
           </Link>
         ))}
       </div>

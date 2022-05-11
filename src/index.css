@@ -431,16 +431,7 @@ dd {
   cursor: pointer;
 }
 
-/* movie index */
-.swiper-slide {
-  display: flex;
-  flex-direction: column;
-}
-
-.swiper-pagination-bullets {
-  display: none;
-}
-
+/* movie index-------------------------------------------------------------- */
 .swiper-slide {
   display: flex;
   flex-direction: column;
@@ -562,6 +553,7 @@ dd {
   box-sizing: border-box;
   cursor: pointer;
   flex-shrink: 0;
+  vertical-align: bottom;
 }
 
 .slideShowBottom__title {
@@ -628,3 +620,8 @@ dd {
   font-weight: 400;
   font-size: 15px;
 }
+/* 
+Link {
+  text-decoration: none;
+  object-fit: contain;
+} */
